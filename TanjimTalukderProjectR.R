@@ -89,7 +89,7 @@ boxplot(fat2$Number.of.Injuries.Illnesses.2012,horizontal=TRUE,xlab="Number of I
 boxplot(fat2$Penalties.FY.2013..Average...,horizontal=TRUE,xlab="Pelanties in $",main="Boxplot (Penalties in 2013(Average $)")
 boxplot(fat2$State.Rank..Fatalities.2012,horizontal=TRUE,xlab="State Rank" ,main="Boxplot (State Rank Fatalities in 2012)")
 boxplot(fat2$Inspectors..less.than.,horizontal=TRUE,main="BoxPlot of Inspector",xlab="Number of Inspector")
-boxplot(fat2$State.Rank..Fatalities.2012,horizontal=TRUE,main="Boxplot of State Rank")
+
 
 
 # Histogram each of the numeric column 
@@ -98,11 +98,10 @@ hist(fat2$State.Rank..Fatalities.2012, main="hist (State Rank Fatalities in 2012
 hist(fat2$Number.of.Injuries.Illnesses.2012,main="hist (Number of Injuries Illnesses 2012)",xlab = "Number of Injuries")
 hist(fat2$Penalties.FY.2013..Average...,main="hist (Penalties in 2013(Average $)",xlab="Dollar Amount $")
 hist(fat2$Inspectors..less.than.,main="Histo of Inspector",xlab="Number of Inspector")
-hist(fat2$State.Rank..Fatalities.2012,main="Histo of State Rank", xlab = "Rank Rumber")
 
 # Scatter Plot each of the numeric column 
 plot(fat2$Number.of.Fatalities..2012,ylab="Number of Fatalities",main="ScatterPlot (Number of Fatalities in 2012)")
-plot(fat2$State.Rank..Fatalities.2012, main="ScatterPlot (State Rank Fatalities in 2012)")
+plot(fat2$State.Rank..Fatalities.2012,ylab="Rank", main="ScatterPlot (State Rank Fatalities in 2012)")
 plot(fat2$Number.of.Injuries.Illnesses.2012,ylab="Number of Injuries",main="ScatterPlot (Number of Injuries Illnesses 2012)")
 plot(fat2$Penalties.FY.2013..Average...,main="ScatterPlot (Penalties in 2013(Average $)",ylab="Dollar Amount $")
 plot(fat2$Inspectors..less.than.,main="ScatterPlot of Inspector",ylab="Number of Inspector")
@@ -110,20 +109,36 @@ plot(fat2$Inspectors..less.than.,main="ScatterPlot of Inspector",ylab="Number of
 
 # Box  Plot each of the numeric column 
 barplot(fat2$Number.of.Fatalities..2012,,ylab="Number of fatalities",main="BarPlot (Number of Fatalities in 2012)")
-barplot(fat2$State.Rank..Fatalities.2012, main="BarPlot (State Rank Fatalities in 2012)")
+barplot(fat2$State.Rank..Fatalities.2012,ylab="Rank", main="BarPlot (State Rank Fatalities in 2012)")
 barplot(fat2$Number.of.Injuries.Illnesses.2012,main="BarPlot (Number of Injuries Illnesses 2012)")
 barplot(fat2$Penalties.FY.2013..Average...,main="BarPlot (Penalties in 2013(Average $)",ylab="Dollar Amount $")
 barplot(fat2$Inspectors..less.than.,main="Barplot of Inspector",ylab="Number of Inspector")
 
 
+#Plotting my nomial or oridianl data 
 
 
+barplot(fat2$State.or.Federal.Program)
 
 
+fat3<-table(fat2$State.or.Federal.Program)
+barplot(fat3[order(fat3,decreasing = T)],
+        main="Graph of Federal or States Program",
+        ylab = "Number of States",col =c("beige","bisque4"),
+        legend=c("Federal","State"))
 
 
+fat4<-table(fat2$State.Size)
+barplot(fat4[order(fat4,decreasing = T)],
+        main="Graph of Different States", 
+        ylab = "Number of States",
+        col =c("green","red","purple"),
+        legend=c("Large","Mid","Small"))
 
+#Pareto Graph of Qualitative data 
 
+library("qcc")
+pareto.chart(fat3,main="Pareto Chart of Federal or State Program")
 
-
+pareto.chart(fat4, main="Pareto Chart of Different Size of States")
 
