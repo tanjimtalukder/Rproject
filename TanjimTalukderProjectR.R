@@ -142,3 +142,62 @@ pareto.chart(fat3,main="Pareto Chart of Federal or State Program")
 
 pareto.chart(fat4, main="Pareto Chart of Different Size of States")
 
+
+
+
+
+#Milestone Nov 1
+#Numeric column 1
+# confidence intervals for column Number of Fatalities in 2012 
+
+mu_hat1 = mean(fat2$Number.of.Fatalities..2012)
+sigma_hat1=sd(fat2$Number.of.Fatalities..2012)
+n1=nrow(fat2)
+alpha1=0.05
+critical_values1=qt(alpha1/2,n1-1)
+U1 = mu_hat1 + critical_values1*sigma_hat1/sqrt(n1)
+U1
+
+L1 = mu_hat1 - critical_values1*sigma_hat1/sqrt(n1)
+L1
+
+paste0("The Confidence Interval for Number of ", 
+       "Fatalities in 2012 is " ,U1, " and ", L1)
+
+
+#Numeric column 2
+# confidence intervals for column Number of Injuries Illnesses 2012
+
+mu_hat2 = mean(fat2$Number.of.Injuries.Illnesses.2012)
+sigma_hat2=sd(fat2$Number.of.Injuries.Illnesses.2012)
+n2=nrow(fat2)
+alpha2=0.05
+critical_values2=qt(alpha2/2,n2-1)
+U2 = mu_hat2 + critical_values2*sigma_hat2/sqrt(n2)
+U2
+
+L2 = mu_hat2 - critical_values2*sigma_hat2/sqrt(n2)
+L2
+
+paste0("The Confidence Interval for Number of ", 
+       "Injuries Illnesses 2012 is " ,U2, " and ", L2)
+
+#Numeric column 3
+# confidence intervals for column Penalties.FY.2013
+mu_hat3 = mean(fat2$Penalties.FY.2013..Average...)
+sigma_hat3=sd(fat2$Penalties.FY.2013..Average...)
+n3=nrow(fat2)
+alpha3=0.05
+critical_values3=qt(alpha3/2,n3-1)
+U3 = mu_hat3 + critical_values3*sigma_hat3/sqrt(n3)
+U3
+
+L3 = mu_hat3 - critical_values3*sigma_hat3/sqrt(n3)
+L3
+
+paste0("The Confidence Interval for amount of ", 
+       "Penalties is " ,U3, " and ", L3)
+
+
+
+
