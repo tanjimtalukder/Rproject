@@ -200,4 +200,38 @@ paste0("The Confidence Interval for amount of ",
 
 
 
+# MileStone 7, Nov 15
+
+#Hypothesis Test 1 
+
+# Mean
+mean_Fatalites<-mean(fat2$Number.of.Fatalities..2012)
+#standard deviations
+sd_Fatalites<-sd(fat2$Number.of.Fatalities..2012)
+mean_Fatalites
+sd_Fatalites
+
+test_Fatalities<- t.test(fat2$Number.of.Fatalities..2012,
+                         alternative = "two.sided",mu=92,conf.level = 0.95)
+
+test_Fatalities
+
+
+#Hypothesis Test 2
+
+State_Program<-fat2$State.or.Federal.Program
+federal<-State_Program == "Federal"
+sum(federal)
+prop.test(sum(federal),nrow(fat2),p=0.60,conf.level = 0.95)
+
+
+#Hypothesis Test 3
+head(fat2)
+only_small_State<-subset(fat2,fat2$State.Size=="Small")
+
+only_Large_State<-subset(fat2,fat2$State.Size=="Large")
+
+t.test(only_Large_State$Inspectors..less.than.,
+       only_small_State$Inspectors..less.than.,conf.level = 0.95)
+
 
