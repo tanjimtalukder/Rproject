@@ -118,7 +118,7 @@ barplot(fat2$Inspectors..less.than.,main="Barplot of Inspector",ylab="Number of 
 #Plotting my nomial or oridianl data 
 
 
-barplot(fat2$State.or.Federal.Program)
+
 
 
 fat3<-table(fat2$State.or.Federal.Program)
@@ -226,12 +226,40 @@ prop.test(sum(federal),nrow(fat2),p=0.60,conf.level = 0.95)
 
 
 #Hypothesis Test 3
-head(fat2)
+
 only_small_State<-subset(fat2,fat2$State.Size=="Small")
 
 only_Large_State<-subset(fat2,fat2$State.Size=="Large")
 
 t.test(only_Large_State$Inspectors..less.than.,
        only_small_State$Inspectors..less.than.,conf.level = 0.95)
+
+#Milestone 8
+
+#Plotting injuries vs fatalities
+plot(fat2$Number.of.Injuries.Illnesses.2012~fat2$Number.of.Fatalities..2012,
+     main="Linear Regression line of fatalities vs Injured",
+     ylab="Number of Injuries",xlab="Number of Fatalities")
+
+cor(fat2$Number.of.Injuries.Illnesses.2012,fat2$Number.of.Fatalities..2012)
+fat2.lm<-lm(fat2$Number.of.Injuries.Illnesses.2012~fat2$Number.of.Fatalities..2012)
+summary(fat2.lm)
+abline(fat2.lm,col="red",lwd=5)
+confint((fat2.lm))
+anova(fat2.lm)
+par(mfrow=c(2,2))
+plot(fat2.lm)
+
+# Extra 3 Analysis 
+
+#Linear Discriminant Analysis 
+
+
+
+
+
+
+
+
 
 
