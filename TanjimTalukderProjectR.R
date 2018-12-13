@@ -82,6 +82,19 @@ kurtosis(fat2$State.Rank..Fatalities.2012)
 4*sqrt(6/length(fat2$State.Rank..Fatalities.2012))
 
 
+# Barplot for fatalities for each of the states.
+par(mar=c(5,10,4,1)+.1)
+
+df<-fat2[order(fat2$Number.of.Fatalities..2012,
+               decreasing = FALSE),]
+
+barplot(df$Number.of.Fatalities..2012,
+        names.arg = df$State,
+        horiz = TRUE,col = rainbow(50),las=1,
+        main="Number of Fatalities in Each State in 2012")
+
+
+
 
 #Box Plot each of the numeric data 
 boxplot(fat2$Number.of.Fatalities..2012,horizontal=TRUE,main="Boxplot (Number of Fatalities in 2012)",xlab="Number of Fatalities")
@@ -138,6 +151,8 @@ barplot(fat4[order(fat4,decreasing = T)],
 #Pareto Graph of Qualitative data 
 
 library("qcc")
+fat3<-table(fat2$State.or.Federal.Program)
+fat4<-table(fat2$State.Size)
 pareto.chart(fat3,main="Pareto Chart of Federal or State Program")
 
 pareto.chart(fat4, main="Pareto Chart of Different Size of States")
@@ -250,9 +265,81 @@ anova(fat2.lm)
 par(mfrow=c(2,2))
 plot(fat2.lm)
 
+
+
+
+
 # Extra 3 Analysis 
 
-#Linear Discriminant Analysis 
+
+
+
+# 1 Linear Discriminant Analysis 
+# Linear Discriminant Analysis 
+
+library(psych)
+pairs.panels(fat2[2:4],gap=0,
+             bg=c("red","green","blue")[fat2$State.Size],pch=18)
+
+
+set.seed(555)
+#Data Partition
+ind<- sample(2,nrow(fat2),
+             replace = T,
+             prob = c(0.6,0.4))
+training<- fat2[ind==1,]
+testing <- fat2[ind==2,]
+
+# Analysis 
+library(MASS)
+fatalities_LDA<-lda(fat2$State.Size~fat2$Number.of.Fatalities..2012+fat2$Number.of.Injuries.Illnesses.2012+
+                      fat2$Penalties.FY.2013..Average...,training)
+
+
+fatalities_LDA
+
+
+#Histogram
+
+p<-predict(fatalities_LDA,training)
+ldahist(data=p$x[,1],g=training$State.Size,main="Linear Discriminant Histogram")
+ldahist(data=p$x[,2],g=training$State.Size,main="Linear Discriminant Histogram")
+
+
+
+
+# 2 Cluster Analysis 
+
+with(fat2,text(fat2$Number.of.Injuries.Illnesses.2012
+     ~ fat2$Number.of.Fatalities..2012,labels= fat2$State.Size))
+     
+
+z<-fat2[-c(1,1,1,3,1,6,1,7)]
+m<-apply(z,2,mean)    
+s<-apply(z, 2,sd)
+f<-scale(z,m,s)
+
+#Euclidean Distance
+distance<-dist(z)
+# distance
+#Cluster Dendrogram with Complete Linkage
+
+hc.c<-hclust((distance))
+plot(hc.c,labels = fat2$State,
+     main ="Cluster Dendrogram of Each State" )
+
+
+
+
+#3 Pareto Graph of Qualitative data
+
+library("qcc")
+
+fat3<-table(fat2$State.or.Federal.Program)
+fat4<-table(fat2$State.Size)
+pareto.chart(fat3,main="Pareto Chart of Federal or State Program")
+
+pareto.chart(fat4, main="Pareto Chart of Different Size of States")
 
 
 
@@ -262,4 +349,37 @@ plot(fat2.lm)
 
 
 
+
+
+
+
+
+
+
+
+############################
+#Extra
+#########*************************************
+par(mar=c(5,10,4,1)+.1)
+
+df<-fat2[order(fat2$Number.of.Fatalities..2012,
+               decreasing = FALSE),]
+
+barplot(df$Number.of.Fatalities..2012,
+        names.arg = df$State,
+        horiz = TRUE,col = rainbow(50),las=1,
+        main="Number of Fatalities in Each State in 2012")
+#*********************************************************
+#par(mar=c(5,5,4,1)+.1)
+plot(fat2$Penalties.FY.2013..Average...~fat2$Number.of.Fatalities..2012,
+     main="Linear Regression line of Penalties vs Fatalities",
+     ylab="Penanties(Average $k)",xlab="Number of Fatalities")
+
+cor(fat2$Penalties.FY.2013..Average...,fat2$Number.of.Fatalities..2012)
+fat8.lm<-lm(fat2$Penalties.FY.2013..Average...~fat2$Number.of.Fatalities..2012)
+
+abline(fat8.lm,col="red",lwd=3)
+summary(fat8.lm)
+par(mfrow=c(2,2))
+plot(fat8.lm)
 
